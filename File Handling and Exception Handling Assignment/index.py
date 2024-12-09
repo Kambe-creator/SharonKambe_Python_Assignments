@@ -75,14 +75,44 @@ def write_file(content, lang):
     except Exception as e:
         print(f"{translations[lang]['unexpected_error']} {e}")
 
-# Main function
-def main():
+# Function to append content to an existing file
+def append_to_file(lang):
+    try:
+        filename = input(translations[lang]['file_write'])
+        new_content = input("Enter the content to append: ")
+        with open(filename, 'a') as file:
+            file.write(new_content + '\n')
+        print(f"Content appended successfully to {filename}!")
+    except Exception as e:
+        print(f"{translations[lang]['unexpected_error']} {e}")
+
+# Function to show the main menu
+def main_menu():
     lang = choose_language()
     print(translations[lang]['welcome'])
-    content = read_file(lang)
-    if content:
-        write_file(content, lang)
-    print(translations[lang]['exit'])
 
+    while True:
+        print("\nMenu:")
+        print("1. Read a File")
+        print("2. Write to a New File")
+        print("3. Append to an Existing File")
+        print("4. Exit")
+
+        choice = input("Enter your choice: ")
+        if choice == '1':
+            read_file(lang)
+        elif choice == '2':
+            content = read_file(lang)
+            if content:
+                write_file(content, lang)
+        elif choice == '3':
+            append_to_file(lang)
+        elif choice == '4':
+            print(translations[lang]['exit'])
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+# Main execution
 if __name__ == "__main__":
-    main()
+    main_menu()
